@@ -379,6 +379,9 @@ function moneyC(v){v=v||0;const a=Math.abs(v);if(a>=1e6)return '$ '+(v/1e6).toFi
 function isMobile(){return window.matchMedia('(max-width:560px)').matches;}
 function moneyKpi(v){return isMobile()?moneyC(v):money(v);}
 function pct(v){return (v||0).toFixed(1).replace('.',',')+'%';}
+/* La tasa de conversion de ecommerce vive entre 0,1% y 2%: con un decimal se
+   aplasta a "0,1%" y no se distingue una mejora real. Va con dos. */
+function pct2(v){return (v||0).toFixed(2).replace('.',',')+'%';}
 function fmtInt(v){return nf.format(Math.round(v||0));}
 function sum(a,f){return a.reduce((s,x)=>s+(parseFloat(f(x))||0),0);}
 function setTxt(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
@@ -456,7 +459,7 @@ function render(c,p,D){
   _last={c,p,D};
   setTxt('kv-fact',moneyKpi(c.facturacion)); setHTML('ks-fact',deltaHTML(c.facturacion,p.facturacion,false));
   setTxt('kv-ticket',moneyKpi(c.ticket)); setHTML('ks-ticket',deltaHTML(c.ticket,p.ticket,false));
-  setTxt('kv-conv',pct(c.conv)); setHTML('ks-conv',deltaHTML(c.conv,p.conv,false));
+  setTxt('kv-conv',pct2(c.conv)); setHTML('ks-conv',deltaHTML(c.conv,p.conv,false));
   setTxt('kv-ord',fmtInt(c.ordenes)); setHTML('ks-ord',deltaHTML(c.ordenes,p.ordenes,false));
   setTxt('kv-mspend',moneyKpi(c.mS)); setHTML('ks-mspend',deltaHTML(c.mS,p.mS,false));
   setTxt('kv-mcosto',moneyKpi(c.mCosto)); setHTML('ks-mcosto',deltaHTML(c.mCosto,p.mCosto,true));
